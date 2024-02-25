@@ -35,7 +35,7 @@ pub(super) struct Tcb {
     pub(super) ack: u32,
     pub(super) last_ack: u32,
     pub(super) timeout: Pin<Box<Sleep>>,
-    tcp_timeout: Duration,
+    pub(super) tcp_timeout: Duration,
     recv_window: u16,
     pub(super) send_window: u16,
     state: TcpState,

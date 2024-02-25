@@ -422,6 +422,11 @@ impl AsyncWrite for IpStackTcpStream {
         cx: &mut std::task::Context<'_>,
         buf: &[u8],
     ) -> std::task::Poll<Result<usize, std::io::Error>> {
+        let timeout = self.tcb.tcp_timeout;
+        self.tcb.timeout
+            .as_mut()
+            .reset(tokio::time::Instant::now() + timeout);
+
         if (self.tcb.send_window as u64) < self.tcb.avg_send_window.0 / 2
             || self.tcb.is_send_buffer_full()
         {
